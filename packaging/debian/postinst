@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+if [ "$1" = configure ] && command -v udevadm >/dev/null 2>&1; then
+    # Give the logged-in user access to an already plugged-in camera.
+    udevadm control --reload-rules 2>/dev/null || true
+    udevadm trigger --action=change --subsystem-match=video4linux --subsystem-match=input \
+        --subsystem-match=usb 2>/dev/null || true
+fi
+#DEBHELPER#

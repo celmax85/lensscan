@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools \
+            libopencv-dev libturbojpeg0-dev libtiff-dev libgl-dev libvulkan-dev \
+            libtesseract-dev libleptonica-dev zlib1g-dev libzbar-dev \
+            tesseract-ocr-eng tesseract-ocr-osd fonts-dejavu-core
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build
+      - name: Unit tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: build/lensscan-tests

@@ -1,0 +1,11 @@
+ARG BASE=ubuntu:26.04
+FROM ${BASE}
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential cmake ninja-build pkg-config git ca-certificates file \
+    qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools \
+    libopencv-dev libturbojpeg0-dev libtiff-dev libgl-dev libvulkan-dev \
+    libtesseract-dev libleptonica-dev zlib1g-dev libzbar-dev tesseract-ocr-eng tesseract-ocr-fra tesseract-ocr-osd fonts-dejavu-core \
+    dpkg-dev debhelper fakeroot xvfb xauth libgl1 \
+ && rm -rf /var/lib/apt/lists/*
+WORKDIR /src

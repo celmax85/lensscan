@@ -1,0 +1,6 @@
+lensscan (0.1.0-1) unstable; urgency=medium
+
+  * Initial release: live preview, page detection, book flattening, colour
+    modes, batch tools, PDF/TIFF/PNG/JPEG/BMP export, OCR, presentation mode.
+
+ -- LensScan developers <lensscan@users.noreply.github.com>  Sun, 22 Nov 2026 09:53:38 +0100

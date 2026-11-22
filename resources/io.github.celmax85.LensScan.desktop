@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Application
+Name=LensScan
+GenericName=Document Camera Scanner
+GenericName[fr]=Scanner pour caméra de documents
+Comment=Scan documents and books with a CZUR Lens document camera
+Comment[fr]=Numériser des documents et des livres avec une caméra de documents CZUR Lens
+Exec=lensscan %U
+Icon=io.github.celmax85.LensScan
+Terminal=false
+Categories=Graphics;Scanning;Office;Qt;
+Keywords=scan;scanner;document;camera;czur;pdf;
+Keywords[fr]=numériser;scanner;document;caméra;czur;pdf;
+StartupNotify=true
+Actions=Scan;
+
+[Desktop Action Scan]
+Name=Scan now
+Name[fr]=Numériser maintenant
+Exec=lensscan --scan

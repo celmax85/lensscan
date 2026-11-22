@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.celmax85.LensScan</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>LensScan</name>
+  <summary>Scan documents with a CZUR Lens document camera</summary>
+  <summary xml:lang="fr">Numériser des documents avec une caméra de documents CZUR Lens</summary>
+  <description>
+    <p>LensScan is scanning software for CZUR Lens document cameras: live preview, automatic page
+    cropping and straightening, curved book flattening, color modes, batch page tools, export to PDF,
+    TIFF, PNG, JPEG and BMP, text recognition (Tesseract) to searchable PDF, Word, Excel and text, and
+    a presentation mode with drawing, video and screen recording.</p>
+    <p>Not affiliated with or endorsed by CZUR Tech Co., Ltd.</p>
+  </description>
+  <url type="homepage">https://github.com/celmax85/lensscan</url>
+  <url type="bugtracker">https://github.com/celmax85/lensscan/issues</url>
+  <url type="vcs-browser">https://github.com/celmax85/lensscan</url>
+  <developer id="io.github.celmax85">
+    <name>LensScan developers</name>
+  </developer>
+  <launchable type="desktop-id">io.github.celmax85.LensScan.desktop</launchable>
+  <provides>
+    <modalias>usb:v1E4Fp1227d*</modalias>
+  </provides>
+  <categories>
+    <category>Graphics</category>
+    <category>Scanning</category>
+  </categories>
+  <releases>
+    <release version="0.1.0" date="2026-11-22"/>
+  </releases>
+</component>

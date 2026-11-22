@@ -1,0 +1,5 @@
+/build/
+/dist/
+/tools/*.bin
+__pycache__/
+*.qm

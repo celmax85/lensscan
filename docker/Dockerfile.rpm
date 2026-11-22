@@ -1,0 +1,14 @@
+ARG BASE=fedora:43
+FROM ${BASE}
+RUN if command -v dnf >/dev/null; then \
+      dnf install -y gcc-c++ cmake make ninja-build pkgconf-pkg-config rpm-build \
+        qt6-qtbase-devel qt6-qttools-devel qt6-linguist opencv-devel turbojpeg-devel libtiff-devel \
+        tesseract-devel leptonica-devel zlib-devel zbar-devel tesseract-langpack-eng tesseract-langpack-fra \
+        desktop-file-utils libappstream-glib systemd-rpm-macros && dnf clean all; \
+    else \
+      zypper -n install gcc-c++ cmake make ninja pkgconf rpm-build \
+        qt6-base-devel qt6-tools-devel qt6-linguist-devel opencv-devel libturbojpeg0 libjpeg8-devel libcurl-devel libarchive-devel dejavu-fonts libtiff-devel \
+        tesseract-ocr-devel leptonica-devel zlib-devel libzbar-devel qt6-printsupport-devel qt6-dbus-devel tesseract-ocr-traineddata-eng tesseract-ocr-traineddata-fra tesseract-ocr-traineddata-osd \
+        desktop-file-utils systemd-rpm-macros && zypper clean -a; \
+    fi
+WORKDIR /src

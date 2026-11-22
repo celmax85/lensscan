@@ -1,0 +1,4 @@
+# LensScan: give the logged-in user access to CZUR document cameras.
+# video4linux: the camera itself; usb: USB reset recovery.
+SUBSYSTEM=="video4linux", ATTRS{idVendor}=="1e4f", TAG+="uaccess"
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1e4f", TAG+="uaccess"

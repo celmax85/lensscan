@@ -1,0 +1,28 @@
+Source: lensscan
+Section: graphics
+Priority: optional
+Maintainer: LensScan developers <62764007+celmax85@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13), cmake, ninja-build, pkg-config,
+ qt6-base-dev, qt6-tools-dev, qt6-tools-dev-tools, qt6-l10n-tools,
+ libopencv-dev, libturbojpeg0-dev, libtiff-dev, libgl-dev, libvulkan-dev,
+ libtesseract-dev, libleptonica-dev, zlib1g-dev, libzbar-dev
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/celmax85/lensscan
+Vcs-Browser: https://github.com/celmax85/lensscan
+Vcs-Git: https://github.com/celmax85/lensscan.git
+
+Package: lensscan
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, qt6-qpa-plugins, tesseract-ocr-eng
+Recommends: qt6-wayland, tesseract-ocr-osd, tesseract-ocr-fra, ffmpeg, gstreamer1.0-tools, gstreamer1.0-pipewire, gstreamer1.0-plugins-good
+Suggests: gnome-session-canberra
+Description: document scanning for CZUR Lens USB document cameras
+ LensScan drives CZUR Lens document cameras (USB 1e4f:1227 and other UVC
+ models) on Linux: live preview, automatic page detection and deskewing,
+ curved book flattening, colour modes, batch page tools, export to PDF, TIFF,
+ PNG, JPEG and BMP, text recognition (Tesseract) to searchable PDF, Word,
+ Excel and text files, and a presentation mode with drawing, video and screen
+ recording.
+ .
+ This is an independent project, not affiliated with CZUR.
