@@ -83,6 +83,7 @@ jobs:
           udev rule by hand, see the [README](https://github.com/${GITHUB_REPOSITORY}#installation).
           Check the files with \`sha256sum -c SHA256SUMS --ignore-missing\`.
           NOTES
+          { printf '\n## Checksums (SHA-256)\n\n```\n'; cat out/SHA256SUMS; printf '```\n'; } >> notes.md
           cat notes.md
       - uses: softprops/action-gh-release@v2
         with:
