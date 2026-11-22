@@ -1,5 +1,5 @@
 Name:           lensscan
-Version:        0.1.0
+Version:        1.0.0
 Release:        1%{?dist}
 Summary:        Document scanning for CZUR Lens USB document cameras
 License:        GPL-3.0-or-later
@@ -62,5 +62,8 @@ udevadm trigger --action=change --subsystem-match=video4linux --subsystem-match=
 %{_datadir}/icons/hicolor/scalable/apps/io.github.celmax85.LensScan.svg
 
 %changelog
-* Sun Nov 22 2026 LensScan developers <lensscan@users.noreply.github.com> - 0.1.0-1
+* Sun Nov 22 2026 LensScan developers <62764007+celmax85@users.noreply.github.com> - 1.0.0-1
+- First stable release, see CHANGELOG.md
+
+* Sun Nov 22 2026 LensScan developers <62764007+celmax85@users.noreply.github.com> - 0.1.0-1
 - Initial release

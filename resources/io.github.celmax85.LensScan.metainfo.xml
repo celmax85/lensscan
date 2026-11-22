@@ -28,6 +28,11 @@
     <category>Scanning</category>
   </categories>
   <releases>
+    <release version="1.0.0" date="2026-11-22">
+      <description>
+        <p>First stable release.</p>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-11-22"/>
   </releases>
 </component>

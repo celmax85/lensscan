@@ -4,11 +4,12 @@
 set -eu
 OUT=${1:-dist}
 TOP=$(mktemp -d)
-mkdir -p "$TOP/SOURCES" "$TOP/stage/lensscan-0.1.0"
-tar --exclude=./build --exclude=./dist --exclude=./.git -cf - . | tar -xf - -C "$TOP/stage/lensscan-0.1.0"
-tar -czf "$TOP/SOURCES/lensscan-0.1.0.tar.gz" -C "$TOP/stage" lensscan-0.1.0
+VER=$(sed -n 's/^Version: *//p' packaging/rpm/lensscan.spec)
+mkdir -p "$TOP/SOURCES" "$TOP/stage/lensscan-$VER"
+tar --exclude=./build --exclude=./dist --exclude=./.git -cf - . | tar -xf - -C "$TOP/stage/lensscan-$VER"
+tar -czf "$TOP/SOURCES/lensscan-$VER.tar.gz" -C "$TOP/stage" lensscan-$VER
 rpmbuild --define "_topdir $TOP" -bb packaging/rpm/lensscan.spec
 mkdir -p "$OUT"
-find "$TOP/RPMS" -name 'lensscan-0*.rpm' -exec cp {} "$OUT"/ \;
+find "$TOP/RPMS" -name "lensscan-$VER-*.rpm" -exec cp {} "$OUT"/ \;
 rm -rf "$TOP"
 ls -la "$OUT"

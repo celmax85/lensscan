@@ -166,7 +166,8 @@ code written with OpenCV.
 ## Contributing
 
 Bug reports, translations and pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md).
-A tag `vX.Y.Z` builds every package in GitHub Actions and attaches them to a draft release.
+Changes are listed in [CHANGELOG.md](CHANGELOG.md). Pushing a tag `vX.Y.Z` builds every package
+in GitHub Actions and publishes them on the [Releases](https://github.com/celmax85/lensscan/releases) page.
 
 ## License
 

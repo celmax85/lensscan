@@ -1,7 +1,9 @@
-name: Release packages
+name: Release
 
-# Builds every package in Docker when a version tag (v0.1.0, ...) is pushed and attaches
-# them to a draft GitHub release. Can also be started by hand from the Actions tab.
+# Pushing a version tag (v1.0.0, ...) builds every package in Docker, then publishes a
+# GitHub release with the packages, their SHA-256 sums and the notes of that version
+# from CHANGELOG.md. Started by hand from the Actions tab, it only builds the packages
+# (downloadable as workflow artifacts).
 on:
   push:
     tags: ['v*']
@@ -12,6 +14,7 @@ permissions:
 
 jobs:
   package:
+    name: ${{ matrix.target }}
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
@@ -20,32 +23,70 @@ jobs:
                  fedora-43, opensuse-tumbleweed, appimage]
     steps:
       - uses: actions/checkout@v5
-      - name: Build ${{ matrix.target }}
+      - name: Build
         run: packaging/build-all.sh ${{ matrix.target }}
-      - name: Rename for the release
+      - name: Name the files after the distribution
         run: |
+          set -eu
+          ver=$(sed -n 's/^project(lensscan VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)
+          t=${{ matrix.target }}
           mkdir -p out
-          for f in dist/${{ matrix.target }}/*; do
-            case "${{ matrix.target }}" in
-              appimage) cp "$f" out/ ;;
-              *) cp "$f" "out/${{ matrix.target }}_$(basename "$f")" ;;
+          for f in dist/$t/*; do
+            case $f in
+              *.AppImage) cp "$f" "out/LensScan-$ver-x86_64.AppImage" ;;
+              *.deb)      cp "$f" "out/lensscan_${ver}_${t}_amd64.deb" ;;
+              *.rpm)      cp "$f" "out/lensscan-${ver}-${t}.x86_64.rpm" ;;
             esac
           done
+          ls -l out
       - uses: actions/upload-artifact@v5
         with:
           name: ${{ matrix.target }}
           path: out/*
+          if-no-files-found: error
 
   release:
     needs: package
-    if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v5
       - uses: actions/download-artifact@v5
         with:
           path: out
           merge-multiple: true
+      - name: Checksums and release notes
+        run: |
+          set -eu
+          ver=${GITHUB_REF_NAME#v}
+          (cd out && sha256sum * > SHA256SUMS)
+          awk -v v="$ver" '$0 ~ "^## \\[" v "\\]" {on=1; next} /^## \[/ {on=0} /^\[[0-9.]+\]:/ {next} on' CHANGELOG.md > notes.md
+          cat >> notes.md <<NOTES
+
+          ## Download
+
+          | Distribution | File |
+          | --- | --- |
+          | Ubuntu 26.04 / 24.04 / 22.04 | \`lensscan_${ver}_ubuntu-XX.XX_amd64.deb\` |
+          | Debian 13 / 12 | \`lensscan_${ver}_debian-XX_amd64.deb\` |
+          | Fedora 43 | \`lensscan-${ver}-fedora-43.x86_64.rpm\` |
+          | openSUSE Tumbleweed | \`lensscan-${ver}-opensuse-tumbleweed.x86_64.rpm\` |
+          | Other distributions | \`LensScan-${ver}-x86_64.AppImage\` |
+
+          \`\`\`sh
+          sudo apt install ./lensscan_${ver}_ubuntu-24.04_amd64.deb     # Debian, Ubuntu
+          sudo dnf install ./lensscan-${ver}-fedora-43.x86_64.rpm       # Fedora
+          sudo zypper install ./lensscan-${ver}-opensuse-tumbleweed.x86_64.rpm
+          \`\`\`
+
+          Unplug and replug the camera once after installing. With the AppImage, install the
+          udev rule by hand, see the [README](https://github.com/${GITHUB_REPOSITORY}#installation).
+          Check the files with \`sha256sum -c SHA256SUMS --ignore-missing\`.
+          NOTES
+          cat notes.md
       - uses: softprops/action-gh-release@v2
         with:
-          draft: true
+          name: LensScan ${{ github.ref_name }}
+          body_path: notes.md
           files: out/*
+          fail_on_unmatched_files: true
